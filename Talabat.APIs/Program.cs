@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Controllers;
+using Talabat.APIs.Helpers;
 using Talabat.Core.Models;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Repository;
@@ -25,6 +26,8 @@ namespace Talabat.APIs
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddAutoMapper(m => m.AddProfile<MappingProfiles>());
+            builder.Services.AddScoped<ProductPictureUrlResolver>();
             var app = builder.Build();
             using var scope = app.Services.CreateScope();
           
@@ -51,6 +54,7 @@ namespace Talabat.APIs
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 

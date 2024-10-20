@@ -10,6 +10,4 @@ public class Employee : BaseModel
    public Department Department { get; set; }
     
     public int DepartmentId { get; set; }
-    
-
 }
