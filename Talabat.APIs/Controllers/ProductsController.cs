@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.DTOs;
+using Talabat.APIs.Errors;
 using Talabat.Core.Models;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Specification;
@@ -10,7 +11,7 @@ namespace Talabat.APIs.Controllers;
 
 [Route($"api/[controller]")]
 [ApiController] 
-public class ProductsController : ControllerBase
+public class ProductsController : BaseApiController
 {
     private readonly IGenericRepository<Product> _productRepo;
     private readonly IMapper _mapper;
@@ -41,7 +42,7 @@ public class ProductsController : ControllerBase
 
         if (product == null)
         {
-            return NotFound(new { Message = "not found", StatusCode = 404 });
+            return NotFound(new ApiResponse(404));
         }
 
         var productToReturn = _mapper.Map<Product, ProductToReturnDto>(product);
