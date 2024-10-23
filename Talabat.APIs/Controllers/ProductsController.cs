@@ -33,7 +33,8 @@ public class ProductsController : BaseApiController
     }
    
    
-  
+    [ProducesResponseType(typeof(ProductToReturnDto), 200)]
+    [ProducesResponseType(typeof(ApiResponse), 404)]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
