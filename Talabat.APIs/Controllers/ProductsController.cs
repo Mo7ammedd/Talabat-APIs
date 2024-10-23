@@ -14,16 +14,23 @@ namespace Talabat.APIs.Controllers;
 public class ProductsController : BaseApiController
 {
     private readonly IGenericRepository<Product> _productRepo;
+    private readonly IGenericRepository<ProductBrand> _productBrandRepo;
+    private readonly IGenericRepository<ProductCategory> _productCategoryRepo;
     private readonly IMapper _mapper;
 
-    public ProductsController(IGenericRepository<Product> productRepo , IMapper mapper)
+    public ProductsController(IGenericRepository<Product> productRepo ,
+        IGenericRepository<ProductBrand> productBrandRepo,
+        IGenericRepository<ProductCategory> productCategoryRepo,
+        IMapper mapper)
     {
         _productRepo = productRepo;
+        _productBrandRepo = productBrandRepo;
+        _productCategoryRepo = productCategoryRepo;
         _mapper = mapper;
     }
     
     
-    [HttpGet]
+    [HttpGet] // api/products
     public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
     {
         var spec = new ProductWithBrandAndCategorySpecifications();
@@ -32,10 +39,9 @@ public class ProductsController : BaseApiController
         return Ok(productsToReturn);
     }
    
-   
     [ProducesResponseType(typeof(ProductToReturnDto), 200)]
     [ProducesResponseType(typeof(ApiResponse), 404)]
-    [HttpGet("{id}")]
+    [HttpGet("{id}")] // api/products/1
     public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
         var spec = new ProductWithBrandAndCategorySpecifications(id);
@@ -50,4 +56,17 @@ public class ProductsController : BaseApiController
 
         return Ok(productToReturn); // 200
     }
+    
+    [HttpGet("brands")] // api/products/brands
+    public async Task<ActionResult<IEnumerable<ProductBrand>>> GetProductBrands()
+    {
+        return Ok(await _productBrandRepo.GetAllAsync());
+    }
+    
+    [HttpGet("categories")] // api/products/categories  
+    public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories()
+    {
+        return Ok(await _productCategoryRepo.GetAllAsync());
+    }
+    
 } 

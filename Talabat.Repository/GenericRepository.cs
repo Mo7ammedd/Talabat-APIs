@@ -28,7 +28,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return await _dbContext.Set<T>().FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IReadOnlyList<T>> GetAllAsync()
     {
         // if (typeof(T) == typeof(Product))
         // {
@@ -41,7 +41,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecification<T> spec)
+    public async Task<IReadOnlyList<T>> GetAllWithSpecAsync(ISpecification<T> spec)
     {
         return await ApplySpecification(spec).ToListAsync();
     }
