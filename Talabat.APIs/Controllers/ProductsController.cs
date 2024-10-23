@@ -31,11 +31,11 @@ public class ProductsController : BaseApiController
     
     
     [HttpGet] // api/products
-    public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
+    public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
     {
         var spec = new ProductWithBrandAndCategorySpecifications();
         var products = await _productRepo.GetAllWithSpecAsync(spec);
-        var productsToReturn = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(products);
+        var productsToReturn = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
         return Ok(productsToReturn);
     }
    
@@ -58,13 +58,13 @@ public class ProductsController : BaseApiController
     }
     
     [HttpGet("brands")] // api/products/brands
-    public async Task<ActionResult<IEnumerable<ProductBrand>>> GetProductBrands()
+    public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
     {
         return Ok(await _productBrandRepo.GetAllAsync());
     }
     
     [HttpGet("categories")] // api/products/categories  
-    public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories()
+    public async Task<ActionResult<IReadOnlyList<ProductCategory>>> GetProductCategories()
     {
         return Ok(await _productCategoryRepo.GetAllAsync());
     }
