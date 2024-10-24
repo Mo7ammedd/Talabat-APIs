@@ -5,7 +5,7 @@ using Talabat.APIs.Errors;
 using Talabat.Core.Models;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Specification;
-using Talabat.Core.Specification.ProductSpecifications;
+using Talabat.Core.Specifications.ProductSpecifications;
 
 namespace Talabat.APIs.Controllers;
 
@@ -31,10 +31,10 @@ public class ProductsController : BaseApiController
     
     
     [HttpGet] // api/products
-    public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+    public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort,int? brandId,int? categoryId)
     {
-        var spec = new ProductWithBrandAndCategorySpecifications();
-        var products = await _productRepo.GetAllWithSpecAsync(spec);
+        var spec = new ProductWithBrandAndCategorySpecifications(sort);
+        var products = await _productRepo.GetAllWithSpecAsync(spec,brandId,categoryId);
         var productsToReturn = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
         return Ok(productsToReturn);
     }

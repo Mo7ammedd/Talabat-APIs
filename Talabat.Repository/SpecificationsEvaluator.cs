@@ -14,10 +14,20 @@ internal static class SpecificationsEvaluator<TModel> where TModel : BaseModel
         {
             query = query.Where(Spec.Criteria);
         }
+
+        if (Spec.OrderBy is not null)
+        {
+            query = query.OrderBy(Spec.OrderBy);
+        }
+
+        else if (Spec.OrderByDesc is not null )
+        {
+            query = query.OrderByDescending(Spec.OrderByDesc);
+        }
         
         query = Spec.Includes.Aggregate(query, (current, include) => current.Include(include));
         
 
         return query;
-    }
+    }   
 }
