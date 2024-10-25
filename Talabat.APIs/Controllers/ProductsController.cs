@@ -37,7 +37,9 @@ public class ProductsController : BaseApiController
         var spec = new ProductWithBrandAndCategorySpecifications(specParams);  
         var products = await _productRepo.GetAllWithSpecAsync(spec);
         var data  = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
-        return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, data));
+        var countSpec = new ProductsWithFiltrationForCountSpec(specParams);
+        var count = await _productRepo.GetCountAsync(countSpec);                 
+        return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, data, count));
     }
    
     [ProducesResponseType(typeof(ProductToReturnDto), 200)]
