@@ -31,17 +31,18 @@ public class ProductsController : BaseApiController
     
     
     [HttpGet] // api/products
-    public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort,int? brandId,int? categoryId)
+    public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProductsSpecParams specParams)
     {
-        var spec = new ProductWithBrandAndCategorySpecifications(sort);
-        var products = await _productRepo.GetAllWithSpecAsync(spec,brandId,categoryId);
-        var productsToReturn = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+        var spec = new ProductWithBrandAndCategorySpecifications(specParams);  
+        var products = await _productRepo.GetAllWithSpecAsync(spec);
+        var productsToReturn = _mapper.Map<IReadOnlyList<Product>,
+             IReadOnlyList<ProductToReturnDto>>(products);
         return Ok(productsToReturn);
     }
    
     [ProducesResponseType(typeof(ProductToReturnDto), 200)]
     [ProducesResponseType(typeof(ApiResponse), 404)]
-    [HttpGet("{id}")] // api/products/1
+    [HttpGet("{id:int}")] // api/products/1
     public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
         var spec = new ProductWithBrandAndCategorySpecifications(id);

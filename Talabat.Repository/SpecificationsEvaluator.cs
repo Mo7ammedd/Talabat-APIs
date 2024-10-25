@@ -14,6 +14,7 @@ internal static class SpecificationsEvaluator<TModel> where TModel : BaseModel
         {
             query = query.Where(Spec.Criteria);
         }
+        
 
         if (Spec.OrderBy is not null)
         {
@@ -23,6 +24,12 @@ internal static class SpecificationsEvaluator<TModel> where TModel : BaseModel
         else if (Spec.OrderByDesc is not null )
         {
             query = query.OrderByDescending(Spec.OrderByDesc);
+        }
+
+        if (Spec.IsPagingEnabled)
+        {
+            query = query.Skip(Spec.Skip).Take(Spec.Take);
+            
         }
         
         query = Spec.Includes.Aggregate(query, (current, include) => current.Include(include));
