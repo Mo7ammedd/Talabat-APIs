@@ -54,6 +54,8 @@ public class ProductsController : BaseApiController
         {
             return NotFound(new ApiResponse(404));
         }
+        
+        
 
         var productToReturn = _mapper.Map<Product, ProductToReturnDto>(product);
 
