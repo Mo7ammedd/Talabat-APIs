@@ -15,5 +15,10 @@ public class ProductsSpecParams
     }
     public int PageIndex { get; set; } = 1;
 
-    public string? Search { get; set; }
+    private string? _search;
+    public string? Search
+    {
+        get => _search;
+        set => _search = value.ToLower();
+    }
 }
