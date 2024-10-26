@@ -7,6 +7,7 @@ public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Prod
 {
     public ProductWithBrandAndCategorySpecifications(ProductsSpecParams specParams)
         : base(p =>
+            (string.IsNullOrEmpty(specParams.Search) || p.Name.ToLower().Contains(specParams.Search.ToLower())) &&
             (!specParams.brandId.HasValue || p.BrandId == specParams.brandId.Value) &&
             (!specParams.categoryId.HasValue || p.CategoryId == specParams.categoryId.Value))
     {
@@ -23,7 +24,7 @@ public class ProductWithBrandAndCategorySpecifications : BaseSpecifications<Prod
                 AddOrderBy(p => p.Name);
                 break;
         }
-        ApplyPagination(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);     
+        ApplyPagination(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
     }
 
     public ProductWithBrandAndCategorySpecifications(int id)

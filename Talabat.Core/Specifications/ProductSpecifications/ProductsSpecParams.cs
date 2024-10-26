@@ -14,5 +14,6 @@ public class ProductsSpecParams
         set => _pageSize = (value > 50) ? MazPageSize : value;
     }
     public int PageIndex { get; set; } = 1;
-    
+
+    public string? Search { get; set; }
 }
