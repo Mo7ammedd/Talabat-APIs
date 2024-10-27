@@ -10,6 +10,8 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices( this IServiceCollection services)
     {
+        // services.AddScoped<IBasketRepository, BasketRepository>();  
+        services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddAutoMapper(m => m.AddProfile<MappingProfiles>());
         services.AddScoped<ProductPictureUrlResolver>();
