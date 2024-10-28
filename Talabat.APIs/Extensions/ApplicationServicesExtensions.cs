@@ -15,6 +15,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddAutoMapper(m => m.AddProfile<MappingProfiles>());
         services.AddScoped<ProductPictureUrlResolver>();
+        
         services.Configure<ApiBehaviorOptions>(options => 
             options.InvalidModelStateResponseFactory = actionContext =>
             {

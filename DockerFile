@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /app
+
+COPY *.sln .
+COPY Talabat.APIs/Talabat.APIs.csproj Talabat.APIs/
+COPY Talabat.Core/Talabat.Core.csproj Talabat.Core/
+COPY Talabat.Repository/Talabat.Repository.csproj Talabat.Repository/
+COPY Talabat.Services/Talabat.Services.csproj Talabat.Services/
+RUN dotnet restore
+
+COPY . .
+WORKDIR /app/Talabat.APIs
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/Talabat.APIs/out .
+
+ENTRYPOINT ["dotnet", "Talabat.APIs.dll"]

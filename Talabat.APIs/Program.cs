@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -7,9 +8,11 @@ using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
 using Talabat.Core.Models;
+using Talabat.Core.Models.Identity;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Repository;
 using Talabat.Repository.Data;
+using Talabat.Repository.Identity;
 
 namespace Talabat.APIs
 {
@@ -27,6 +30,8 @@ namespace Talabat.APIs
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
             builder.Services.AddSingleton<IConnectionMultiplexer, ConnectionMultiplexer>(c =>
             {
                 var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
@@ -34,6 +39,14 @@ namespace Talabat.APIs
             });
             
             builder.Services.AddApplicationServices();
+            builder.Services.AddIdentity<AppUser,IdentityRole>(options =>
+                    {
+                    // options.Password.RequireNonAlphanumeric = false;
+                    // options.Password.RequireDigit = false;
+                    // options.Password.RequireLowercase = false;
+                    // options.Password.RequireUppercase = false;
+                    // options.Password.RequiredLength = 6;
+                }).AddEntityFrameworkStores<AppIdentityDbContext>();
             #endregion
 
             var app = builder.Build();
@@ -43,11 +56,16 @@ namespace Talabat.APIs
             // Ask CLR to create a scope for the service provider
             var services = scope.ServiceProvider;
             var _dbcontext = services.GetRequiredService<StoreContext>();
+            var _identityDbContext = services.GetRequiredService<AppIdentityDbContext>();
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             try
             {
                 await _dbcontext.Database.MigrateAsync();
                 await StoreContextSeed.SeedAsync(_dbcontext);
+                await _identityDbContext.Database.MigrateAsync();
+                var _userManager = services.GetRequiredService<UserManager<AppUser>>();
+                await AppIdentityDbContextSeed.SeedUsersAsync(_userManager); 
+                
             }
             catch (Exception e)
             {
@@ -73,7 +91,7 @@ namespace Talabat.APIs
             app.MapControllers();
             #endregion
 
-            app.Run();
+             app.Run();
         }
     }
 }

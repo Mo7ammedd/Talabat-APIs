@@ -19,6 +19,7 @@ namespace Talabat.APIs.Controllers
             _mapper = mapper;
         }
         
+        [HttpGet]
         public async Task<ActionResult<CustomerBasket>> GetBasket(string id)
         {
             var basket = await _basketRepository.GetBasketAsync(id);

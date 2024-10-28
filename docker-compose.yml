@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  talabat-api:
+    image: talabat-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - redis
+      - sqlserver
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=TalabatDb;User=sa;Password=YourStrong!Passw0rd;
+      - Redis__ConnectionString=redis:6379
+
+  redis:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
