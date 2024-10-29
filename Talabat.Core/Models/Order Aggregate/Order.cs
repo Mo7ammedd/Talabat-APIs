@@ -24,6 +24,8 @@ public class Order : BaseModel
     
     public Address ShipToAddress { get; set; }
     
+    
+    public int? DeliveryMethodId { get; set; }
     public DeliveryMethod DeliveryMethod { get; set; }
 
     public ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>(); //navigation property many to one
