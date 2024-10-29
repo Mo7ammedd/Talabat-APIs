@@ -2,10 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app
 
 COPY *.sln .
-COPY Talabat.APIs/Talabat.APIs.csproj Talabat.APIs/
-COPY Talabat.Core/Talabat.Core.csproj Talabat.Core/
-COPY Talabat.Repository/Talabat.Repository.csproj Talabat.Repository/
-COPY Talabat.Services/Talabat.Services.csproj Talabat.Services/
+COPY **/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p $(dirname $file) && mv $file $(dirname $file); done
 RUN dotnet restore
 
 COPY . .
