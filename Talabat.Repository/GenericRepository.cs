@@ -56,6 +56,21 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return await ApplySpecification(spec).CountAsync();
     }
 
+    public async Task AddAsync(T entity)
+    {
+        await _dbContext.Set<T>().AddAsync(entity);
+    }
+
+    public void Update(T entity)
+    {
+        _dbContext.Entry(entity).State = EntityState.Modified;
+    }
+
+    public void Delete(T entity)
+    {
+        _dbContext.Set<T>().Remove(entity);
+    }
+
 
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {

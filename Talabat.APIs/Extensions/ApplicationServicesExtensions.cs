@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
+using Talabat.Core;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Repository;
 
@@ -10,9 +11,10 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices( this IServiceCollection services)
     {
+        services.AddScoped(typeof(IUnitOfWork),typeof(UnitOfWork));
         // services.AddScoped<IBasketRepository, BasketRepository>();  
         services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        // services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddAutoMapper(m => m.AddProfile<MappingProfiles>());
         services.AddScoped<ProductPictureUrlResolver>();
         

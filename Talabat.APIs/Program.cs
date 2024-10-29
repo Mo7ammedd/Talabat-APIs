@@ -47,6 +47,7 @@ namespace Talabat.APIs
                     // options.Password.RequireUppercase = false;
                     // options.Password.RequiredLength = 6;
                 }).AddEntityFrameworkStores<AppIdentityDbContext>();
+            
             #endregion
 
             var app = builder.Build();
