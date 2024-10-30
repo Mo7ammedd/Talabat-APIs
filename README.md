@@ -79,7 +79,23 @@ This will start:
 2. Build the Docker image: `docker-compose build`
 3. Run the containers: `docker-compose up`
 4. Access the API at `http://localhost:8080`
+#### Endpoints
 
+**AccountController**
+- `POST /api/account/login`: Login a user
+- `POST /api/account/register`: Register a new user
+
+**ErrorsController**
+- `GET /errors/{code}`: Handle errors
+
+**OrderController**
+- `POST /api/order`: Create a new order
+
+**ProductsController**
+- `GET /api/products`: Get a list of products
+- `GET /api/products/{id}`: Get a product by ID
+- `GET /api/products/brands`: Get a list of product brands
+- `GET /api/products/categories`: Get a list of product categories
 ### Testing
 ```bash
 # Run unit tests
