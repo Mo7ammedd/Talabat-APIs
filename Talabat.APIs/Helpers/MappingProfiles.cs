@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Talabat.APIs.DTOs;
 using Talabat.Core.Models;
+using Talabat.Core.Models.Order_Aggregate;
 
 namespace Talabat.APIs.Helpers;
 
@@ -18,6 +19,7 @@ public class MappingProfiles : Profile
 
         CreateMap<CustomerBasketDto, CustomerBasket>();
         CreateMap<BasketItemDto, BasketItem>();
+        CreateMap<AddressDto, Address>();
 
     }
 }

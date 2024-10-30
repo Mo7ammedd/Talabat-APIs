@@ -24,8 +24,9 @@ public class UnitOfWork : IUnitOfWork
         var type = typeof(T).Name;
         if (!_repositories.ContainsKey(type))
         {
-            var repositoryType = new GenericRepository<T>(_dbContext) as GenericRepository<BaseModel>;
-            _repositories.Add(type, repositoryType);
+            var repositoryType = typeof(GenericRepository<>).MakeGenericType(typeof(T));
+            var repositoryInstance = Activator.CreateInstance(repositoryType, _dbContext);
+            _repositories.Add(type, repositoryInstance);
         }
 
         return (IGenericRepository<T>)_repositories[type];

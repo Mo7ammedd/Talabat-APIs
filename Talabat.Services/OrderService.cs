@@ -28,9 +28,10 @@ public class OrderService : IOrderService
         var orderItems = new List<OrderItem>();
         if (basket?.items != null)
         {
+            var productRepository = _unitOfWork.Repository<Product>();
             foreach (var item in basket.items)
             {
-                var productItem = await _unitOfWork.Repository<Product>().GetAsync(item.Id);
+                var productItem = await productRepository .GetAsync(item.Id);
                 var productItemOrdered = new ProductItemOrder(productItem.Id, productItem.Name, productItem.PictureUrl); 
                 var itemOrdered = new OrderItem(productItemOrdered, productItem.Price, item.Quantity);
                 orderItems.Add(itemOrdered);

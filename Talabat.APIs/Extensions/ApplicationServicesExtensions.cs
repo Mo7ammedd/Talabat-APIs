@@ -3,7 +3,9 @@ using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
 using Talabat.Core;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Services.Contract;
 using Talabat.Repository;
+using Talabat.Services;
 
 namespace Talabat.APIs.Extensions;
 
@@ -11,6 +13,7 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices( this IServiceCollection services)
     {
+        services.AddScoped(typeof(IOrderService), typeof(OrderService));
         services.AddScoped(typeof(IUnitOfWork),typeof(UnitOfWork));
         // services.AddScoped<IBasketRepository, BasketRepository>();  
         services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
