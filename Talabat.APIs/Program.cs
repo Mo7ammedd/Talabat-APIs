@@ -10,9 +10,11 @@ using Talabat.APIs.Middlewares;
 using Talabat.Core.Models;
 using Talabat.Core.Models.Identity;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Services.Contract;
 using Talabat.Repository;
 using Talabat.Repository.Data;
 using Talabat.Repository.Identity;
+using Talabat.Services;
 
 namespace Talabat.APIs
 {
@@ -39,14 +41,7 @@ namespace Talabat.APIs
             });
             
             builder.Services.AddApplicationServices();
-            builder.Services.AddIdentity<AppUser,IdentityRole>(options =>
-                    {
-                    // options.Password.RequireNonAlphanumeric = false;
-                    // options.Password.RequireDigit = false;
-                    // options.Password.RequireLowercase = false;
-                    // options.Password.RequireUppercase = false;
-                    // options.Password.RequiredLength = 6;
-                }).AddEntityFrameworkStores<AppIdentityDbContext>();
+            builder.Services.AddIdentityServices();
             
             #endregion
 

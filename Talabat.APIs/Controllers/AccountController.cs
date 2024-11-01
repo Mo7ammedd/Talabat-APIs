@@ -6,6 +6,7 @@ using Talabat.APIs.Errors;
 using Talabat.Core.Models;
 using Talabat.Core.Models.Identity;
 using Talabat.Core.Repositories.Contract;
+using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs.Controllers
 {
@@ -15,12 +16,14 @@ namespace Talabat.APIs.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IAuthService _authService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper )
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper ,IAuthService authService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _authService = authService;
         }
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -39,7 +42,7 @@ namespace Talabat.APIs.Controllers
             return new UserDto
             {
                 Email = user.Email,
-                Token = "This will be token",
+                Token = await _authService.CreateTokenAsync(user, _userManager),
                 DisplayName = user.DisplayName
             };
         }
@@ -65,7 +68,7 @@ namespace Talabat.APIs.Controllers
             return new UserDto
             {
                 Email = user.Email,
-                Token = "This will be token",
+                Token = await _authService.CreateTokenAsync(user, _userManager),
                 DisplayName = user.DisplayName
             };
         }   

@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Talabat.Core\Talabat.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.27" />
+    </ItemGroup>
+
 </Project>

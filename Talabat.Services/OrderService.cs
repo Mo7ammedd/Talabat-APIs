@@ -78,4 +78,11 @@ public class OrderService : IOrderService
         var order = ordersRepo.GetWithSpecAsync(spec);
         return order;
     }
+
+    public Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
+    {
+        var deliveryMethodsRepo = _unitOfWork.Repository<DeliveryMethod>();
+        var deliveryMethods = deliveryMethodsRepo.GetAllAsync();
+        return deliveryMethods;
+    }
 }
