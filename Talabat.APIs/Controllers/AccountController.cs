@@ -1,8 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.Core.Models;
 using Talabat.Core.Models.Identity;
 using Talabat.Core.Repositories.Contract;
@@ -49,9 +52,9 @@ namespace Talabat.APIs.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await _userManager.FindByEmailAsync(registerDto.Email) != null)
+            if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
             {
-                return BadRequest(new ApiResponse(400, "Email is already in use"));
+                return BadRequest(new ApiValidationErrorResponse(){Errors =  new []{"Email address is in use"}});
             }
             var user = new AppUser
             {
@@ -72,6 +75,93 @@ namespace Talabat.APIs.Controllers
                 DisplayName = user.DisplayName
             };
         }   
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var email = User.FindFirstValue( ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(email);
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _authService.CreateTokenAsync(user, _userManager),
+                DisplayName = user.DisplayName
+            };
+            
+        }
+        [Authorize]
+        [HttpGet("address")]
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindUserWithAddressAsync(User);
+            var address = _mapper.Map<Address, AddressDto>(user.Address);
+            return Ok(address);
+        }
+        [Authorize] 
+        [HttpPut("address")]
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
+        {
+            var user = await _userManager.FindUserWithAddressAsync(User);
+            user.Address = _mapper.Map<AddressDto, Address>(addressDto);
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded) return Ok(_mapper.Map<Address, AddressDto>(user.Address));
+            return BadRequest("Problem updating the user");
+        }
+        [HttpGet("emailexists")]
+        public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
+        {
+            return await _userManager.FindByEmailAsync(email) != null;
+        }
         
+        [Authorize]
+        [HttpPut("update")]
+        public async Task<ActionResult<UserDto>> UpdateUser(UpdateUserDto updateUserDto)
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (user == null)
+            {
+                return NotFound(new ApiResponse(404, "User not found"));
+            }
+
+            user.DisplayName = updateUserDto.DisplayName;
+            user.PhoneNumber = updateUserDto.PhoneNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new ApiResponse(400, "Problem updating the user"));
+            }
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _authService.CreateTokenAsync(user, _userManager),
+                DisplayName = user.DisplayName
+            };
+        }
+        [Authorize]
+        [HttpPut("updatepassword")]
+        public async Task<ActionResult> UpdateUserPassword([FromBody] Dictionary<string, string> passwords)
+        {
+            if (!passwords.ContainsKey("currentPassword") || !passwords.ContainsKey("newPassword"))
+            {
+                return BadRequest(new ApiResponse(400, "Current and new passwords are required"));
+            }
+
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (user == null)
+            {
+                return NotFound(new ApiResponse(404, "User not found"));
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, passwords["currentPassword"], passwords["newPassword"]);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new ApiResponse(400, "Problem updating the password"));
+            }
+
+            return Ok();
+        }
     }
 }

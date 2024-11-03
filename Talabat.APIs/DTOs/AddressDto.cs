@@ -4,14 +4,10 @@ namespace Talabat.APIs.DTOs;
 
 public class AddressDto
 {
-    [Required]
-    public string FirstName { get; set; }
-    [Required]
-    public string LastName { get; set; }
-    [Required]
+    public int Id { get; set; }
+    public string FName { get; set; }
+    public string LName { get; set; }
     public string Street { get; set; }
-    [Required]
     public string City { get; set; }
-    [Required]
     public string Country { get; set; }
 }

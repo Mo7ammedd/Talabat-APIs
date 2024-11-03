@@ -62,14 +62,14 @@ public class OrderService : IOrderService
         
     }
 
-    public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+    public async Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
     {
         var ordersRepo = _unitOfWork.Repository<Order>();
         var spec = new OrderSpecifications(buyerEmail);
-        var orders = ordersRepo.GetAllWithSpecAsync(spec);
-        return orders;
-
+        var orders = await ordersRepo.GetAllWithSpecAsync(spec);
+        return orders.ToList(); 
     }
+
 
     public Task<Order?> GetOrderByIdForUserAsync(int orderId, string buyerEmail)
     {

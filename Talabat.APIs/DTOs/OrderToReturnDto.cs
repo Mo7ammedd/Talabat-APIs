@@ -4,6 +4,7 @@ namespace Talabat.APIs.DTOs;
 
 public class OrderToReturnDto
 {
+    public int Id { get; set; }
     public string BuyerEmail { get; set; }
     
     public DateTimeOffset OrderDate { get; set; } 
@@ -19,8 +20,7 @@ public class OrderToReturnDto
     
     public decimal DeliveryMethodCost { get; set; }
 
-    public ICollection<OrderItemDto> OrderItems { get; set; } = new HashSet<OrderItemDto>();    
-    public decimal Subtotal { get; set; }
+    public List<OrderItemDto> Items { get; set; }
     
     public decimal Total { get; set; }
     
