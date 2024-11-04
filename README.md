@@ -79,7 +79,6 @@ This will start:
 2. Build the Docker image: `docker-compose build`
 3. Run the containers: `docker-compose up`
 4. Access the API at `http://localhost:8080`
-#### Endpoints
 
 ### Endpoints
 
