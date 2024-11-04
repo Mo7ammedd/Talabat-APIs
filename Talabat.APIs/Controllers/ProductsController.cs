@@ -25,7 +25,7 @@ public class ProductsController : BaseApiController
         _mapper = mapper;
         _productService = productService;
     }
-    
+    [Cached(300)]
     [HttpGet] // api/products
     public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductsSpecParams specParams)
     {

@@ -81,15 +81,31 @@ This will start:
 4. Access the API at `http://localhost:8080`
 #### Endpoints
 
+### Endpoints
+
 **AccountController**
 - `POST /api/account/login`: Login a user
 - `POST /api/account/register`: Register a new user
+- `GET /api/account`: Get the current user
+- `GET /api/account/address`: Get the user's address
+- `PUT /api/account/address`: Update the user's address
+- `GET /api/account/emailexists`: Check if an email exists
+- `PUT /api/account/update`: Update the user's information
+- `PUT /api/account/updatepassword`: Update the user's password
+
+**BasketController**
+- `GET /api/basket`: Get a basket by ID
+- `POST /api/basket`: Update a basket
+- `DELETE /api/basket/id`: Delete a basket by ID
 
 **ErrorsController**
 - `GET /errors/{code}`: Handle errors
 
 **OrderController**
 - `POST /api/order`: Create a new order
+- `GET /api/order`: Get orders for the current user
+- `GET /api/order/{id}`: Get an order by ID
+- `GET /api/order/deliveryMethods`: Get delivery methods
 
 **ProductsController**
 - `GET /api/products`: Get a list of products
