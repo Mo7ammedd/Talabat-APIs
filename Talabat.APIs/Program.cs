@@ -42,6 +42,8 @@ namespace Talabat.APIs
             
             builder.Services.AddApplicationServices();
             builder.Services.AddIdentityServices(builder.Configuration);
+            builder.Services.AddScoped<IResponseCacheService, ResponseCacheService>();
+
             
             
             #endregion
