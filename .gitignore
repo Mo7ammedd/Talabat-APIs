@@ -16,7 +16,7 @@
 # Mono auto generated files
 mono_crash.*
 ./idea
-./Talabat.APIs/appsettings.json
+appsettings.json
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

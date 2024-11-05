@@ -68,6 +68,10 @@ This will start:
         "ValidAudience": "Mohammed-Mostafa-Apis-Client",
         "TokenLifeTime": 60
       }
+       "StripeSettings": {
+      "PublishableKey": "pk_test_51QHni2LeDOOmiS3JVkaSdIcebkbxTXyATf0gqf9MuF8rK5XjFWy40Fvdzloh3P60kCzpsd3gKtCTslYDrkALgxiN00pFuZxDju",
+      "SecretKey": "sk_test_51QHni2LeDOOmiS3JqzkXgUifm8b5SwiEiOcCdrdp9rfJ6l3lEVyT9YcYHpXrGlG9yqWIPfEZIlHGtVMDQECGTNQJ00T24XehpZ"
+     }
     }
     ```
 
@@ -78,7 +82,7 @@ This will start:
     ```
 
 ### API Documentation
-- API documentation available at `http://localhost:8080/swagger`
+- API documentation available at `https://localhost:7284/swagger/index.html`
 - Detailed endpoint documentation in the `Talabat.APIs` project
 - Postman documentation available [here](https://documenter.getpostman.com/view/28646082/2sAY4yfghP)
 
