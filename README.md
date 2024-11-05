@@ -69,8 +69,8 @@ This will start:
         "TokenLifeTime": 60
       }
        "StripeSettings": {
-      "PublishableKey": "pk_test_51QHni2LeDOOmiS3JVkaSdIcebkbxTXyATf0gqf9MuF8rK5XjFWy40Fvdzloh3P60kCzpsd3gKtCTslYDrkALgxiN00pFuZxDju",
-      "SecretKey": "sk_test_51QHni2LeDOOmiS3JqzkXgUifm8b5SwiEiOcCdrdp9rfJ6l3lEVyT9YcYHpXrGlG9yqWIPfEZIlHGtVMDQECGTNQJ00T24XehpZ"
+      "PublishableKey": "",
+      "SecretKey": ""
      }
     }
     ```
