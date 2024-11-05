@@ -4,8 +4,11 @@ namespace Talabat.Core.Models.Order_Aggregate;
 
 public class Order : BaseModel
 {
-    public Order(string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod,ICollection<OrderItem> orderItems,decimal subtotal)
+    private readonly string _paymentIntentId;
+
+    public Order(string buyerEmail, Address shipToAddress, DeliveryMethod deliveryMethod,ICollection<OrderItem> orderItems,decimal subtotal,string paymentIntentId)
     {
+        PaymentIntentId = paymentIntentId;
         BuyerEmail = buyerEmail;
         ShipToAddress = shipToAddress;
         DeliveryMethod = deliveryMethod;
@@ -36,6 +39,6 @@ public class Order : BaseModel
     public decimal GetTotal()
         => Subtotal + DeliveryMethod.Cost;
     
-    public string PaymentIntentId { get; set; } = "";
+    public string PaymentIntentId { get; set; } 
     
 }

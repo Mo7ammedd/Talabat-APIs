@@ -18,4 +18,6 @@ public class OrderSpecifications : BaseSpecifications<Order>
             Includes.Add(o=>o.DeliveryMethod);
             Includes.Add(o=>o.OrderItems);
     }
+    
+   
 } 

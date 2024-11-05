@@ -4,6 +4,7 @@ using Talabat.APIs.DTOs;
 using Talabat.Core.Models;
 using Talabat.Core.Models.Order_Aggregate;
 using Talabat.Core.Models.Identity;
+using Address = Talabat.Core.Models.Order_Aggregate.Address;
 
 namespace Talabat.APIs.Helpers;
 
@@ -18,9 +19,7 @@ public class MappingProfiles : Profile
 
         CreateMap<CustomerBasketDto, CustomerBasket>();
         CreateMap<BasketItemDto, BasketItem>();
-        CreateMap<AddressDto, Talabat.Core.Models.Identity.Address>();
-        CreateMap<Talabat.Core.Models.Identity.Address, AddressDto>();
-
+        CreateMap<AddressDto, Address>().ReverseMap();
         CreateMap<Order, OrderToReturnDto>()
             .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
             .ForMember(d => d.DeliveryMethodCost, o => o.MapFrom(s => s.DeliveryMethod.Cost));

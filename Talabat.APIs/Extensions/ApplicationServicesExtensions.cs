@@ -16,6 +16,7 @@ public static class ApplicationServicesExtensions
         services.AddScoped(typeof(IOrderService), typeof(OrderService));
         services.AddScoped(typeof(IUnitOfWork),typeof(UnitOfWork));
         services.AddScoped(typeof(IProductService), typeof(ProductService));
+        services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
 
         // services.AddScoped<IBasketRepository, BasketRepository>();  
         services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));

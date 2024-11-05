@@ -1,4 +1,4 @@
-## Talabat API Project
+### Talabat API Project
 
 ### Overview
 A scalable e-commerce platform built with modern architectural patterns and best practices. This platform leverages Entity Framework, LINQ, and follows Clean Architecture principles to provide a robust solution for e-commerce needs.
@@ -63,10 +63,10 @@ This will start:
         "ConnectionString": "localhost:6379"
       },
       "Jwt": {
-    "SecretKey": "7f98e3b1-4b7b-4b7b-8b7b-7b7b7b7b7b7b",
-    "ValidIssuer": "https://localhost:7284/",
-    "ValidAudience": "Mohammed-Mostafa-Apis-Client",
-    "TokenLifeTime": 60
+        "SecretKey": "7f98e3b1-4b7b-4b7b-8b7b-7b7b7b7b7b7b",
+        "ValidIssuer": "https://localhost:7284/",
+        "ValidAudience": "Mohammed-Mostafa-Apis-Client",
+        "TokenLifeTime": 60
       }
     }
     ```
@@ -80,6 +80,7 @@ This will start:
 ### API Documentation
 - API documentation available at `http://localhost:8080/swagger`
 - Detailed endpoint documentation in the `Talabat.APIs` project
+- Postman documentation available [here](https://documenter.getpostman.com/view/28646082/2sAY4yfghP)
 
 ### Development Workflow
 1. Make changes to the code
@@ -118,6 +119,7 @@ This will start:
 - `GET /api/products/{id}`: Get a product by ID
 - `GET /api/products/brands`: Get a list of product brands
 - `GET /api/products/categories`: Get a list of product categories
+
 ### Testing
 ```bash
 # Run unit tests
