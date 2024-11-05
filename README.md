@@ -56,10 +56,17 @@ This will start:
     ```json
     {
       "ConnectionStrings": {
-        "DefaultConnection": "Server=localhost;Database=TalabatDb;User=sa;Password=YourStrong!Passw0rd;"
+        "DefaultConnection": "Server=localhost;Database=TalabatDb;User=sa;Password=YourStrong!Passw0rd;",
+        "IdentityConnection": "Server=localhost;Database=TalabatIdentity;User Id=sa;Password=YourStrong!Passw0rd;"
       },
       "Redis": {
         "ConnectionString": "localhost:6379"
+      },
+      "Jwt": {
+    "SecretKey": "7f98e3b1-4b7b-4b7b-8b7b-7b7b7b7b7b7b",
+    "ValidIssuer": "https://localhost:7284/",
+    "ValidAudience": "Mohammed-Mostafa-Apis-Client",
+    "TokenLifeTime": 60
       }
     }
     ```
