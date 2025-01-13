@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using StackExchange.Redis;
 using Talabat.APIs.Controllers;
 using Talabat.APIs.Errors;
@@ -28,6 +29,7 @@ namespace Talabat.APIs
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddSwaggerServices();
+            builder.Services.AddOpenApi();
             builder.Services.AddDbContext<StoreContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -78,7 +80,14 @@ namespace Talabat.APIs
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-              app.UseSwaggerMiddleWare();
+                app.MapOpenApi();
+                app.MapScalarApiReference(options => 
+                    options
+                        .WithTheme(ScalarTheme.Mars)
+                        .WithDefaultHttpClient(ScalarTarget.CSharp,ScalarClient.HttpClient)
+                    
+                    );
+                app.UseSwaggerMiddleWare();
             }
             app.UseStatusCodePagesWithRedirects("/errors/{0}");
 

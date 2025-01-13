@@ -33,6 +33,7 @@ src/
 - .NET 6.0 SDK
 - Docker and Docker Compose
 - Visual Studio 2022 or VS Code
+- redis
 
 #### Running with Docker
 1. Clone the repository:
