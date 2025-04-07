@@ -138,6 +138,47 @@ docker-compose up
 - Health checks available at `/health`
 - Logs are written to console and can be viewed using `docker-compose logs`
 
+### Mock Configuration Files
+
+#### appsettings.json
+For local development and testing, you can use the following mock configuration:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=TalabatDb;User Id=sa;Password=YourStrong!Passw0rd;",
+    "IdentityConnection": "Server=localhost;Database=TalabatIdentity;User Id=sa;Password=YourStrong!Passw0rd;"
+  },
+  "ApiBaseUrl": "https://localhost:7284",
+  "Redis": {
+    "ConnectionString": "localhost:6379"
+  },
+  "Jwt": {
+    "SecretKey": "YourSuperSecretKey-12345678901234567890",
+    "ValidIssuer": "https://localhost:7284/",
+    "ValidAudience": "Talabat-Apis-Client",
+    "TokenLifeTime": 60
+  },
+  "StripeSettings": {
+    "PublishableKey": "pk_test_YourPublishableKey",
+    "SecretKey": "sk_test_YourSecretKey",
+    "WebhookSecret": "whsec_YourWebhookSecret"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ASPNETCORE_ENVIRONMENT": "Development"
+}
+```
+
+
+> **Note**: Replace placeholder values like API keys and secrets with your actual values. Never commit real secrets to source control.
+
 ### Contributing
 1. Fork the repository
 2. Create a feature branch
